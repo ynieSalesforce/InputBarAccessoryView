@@ -33,19 +33,13 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     return imageView
   }()
   
-  fileprivate lazy var textContainer: UIView = {
-    let view = UIView()
-    contentView.addSubview(view)
-    return view
-  }()
-  
   fileprivate lazy var titleLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .subheadline)
     label.textColor = .label
     label.numberOfLines = 0
     label.lineBreakMode = .byWordWrapping
-    textContainer.addSubview(label)
+    contentView.addSubview(label)
     return label
   }()
   
@@ -54,7 +48,7 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
     label.textColor = .secondaryLabel
     label.numberOfLines = 0
-    textContainer.addSubview(label)
+    contentView.addSubview(label)
     return label
   }()
   
@@ -121,36 +115,28 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
       }
     }
     
-    textContainer.snp.updateConstraints { make in
-      make.leading.equalTo(iconImageContainer.snp.trailing).offset(16).priority(.high)
-      make.trailing.equalTo(contentView).inset(16)
-      make.top.equalTo(contentView).offset(8)
-      make.bottom.equalTo(contentView).inset(8)
-      make.height.greaterThanOrEqualTo(AutocompleteSuggestionEntityCell.autoCompleteAvatarSize).priority(.high)
-    }
-    
     titleLabel.snp.remakeConstraints { make in
-      make.leading.equalTo(textContainer)
-      make.trailing.equalTo(textContainer).inset(2)
+      make.leading.equalTo(iconImageContainer.snp.trailing).offset(16).priority(.required)
+      make.trailing.equalTo(contentView).inset(16)
       if let subtitleText = subtitleLabel.text,
-          !subtitleText.isEmpty {
-        make.top.equalTo(textContainer)
+         !subtitleText.isEmpty {
+        make.top.equalTo(contentView).offset(8)
       } else {
-        make.top.equalTo(textContainer)
-        make.bottom.equalTo(textContainer)
-        make.centerY.equalTo(textContainer)
+        make.top.equalTo(contentView).offset(8)
+        make.bottom.equalTo(contentView).inset(8)
+        make.height.greaterThanOrEqualTo(AutocompleteSuggestionEntityCell.autoCompleteAvatarSize)
       }
     }
     
     subtitleLabel.snp.remakeConstraints { make in
-      make.leading.equalTo(textContainer)
-      make.trailing.equalTo(textContainer)
       if let subtitleText = subtitleLabel.text,
          !subtitleText.isEmpty {
-        make.top.equalTo(titleLabel.snp.bottom).offset(4)
-        make.bottom.equalTo(textContainer)
+        make.leading.equalTo(iconImageContainer.snp.trailing).offset(16).priority(.required)
+        make.trailing.equalTo(contentView).inset(16)
+        make.top.equalTo(titleLabel.snp.bottom).offset(4).priority(.required)
+        make.bottom.equalTo(contentView).inset(8)
       } else {
-        make.centerY.equalTo(textContainer)
+        make.centerY.equalTo(contentView)
       }
     }
     super.updateConstraints()
