@@ -58,7 +58,7 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     
     switch suggestion.type {
     case .user:
-      
+      setAvatarImage()
     default:
       setTopicIconImage()
     }
@@ -80,10 +80,7 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
   
   private func setAvatarImage() {
       // Handles user case
-    iconImage.image = .imageWithPointSize(
-      systemName: "number",
-      pointSize: AutocompleteSuggestionEntityCell.actionIconSize
-    )
+    iconImage.image = UIImage.init(named: "AstroAvatar")
     iconImage.tintColor = .systemBackground
     iconImageContainer.backgroundColor = .systemBackground
   }

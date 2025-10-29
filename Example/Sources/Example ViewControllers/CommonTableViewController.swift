@@ -263,19 +263,18 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
     { fatalError("Oops, some unknown error occurred") }
     
     if session.prefix == "#" {
-      let name = session.completion?.text ?? ""
-      let topic = AutocompleteEntitySuggestion.salesforceTopicsMockData.filter(\.name) == name
-      
+      let sessionText = session.completion?.text ?? ""
+      let topic = AutocompleteEntitySuggestion.salesforceTopicsMockData.filter { input in
+        input.name.lowercased().contains(sessionText.lowercased())
+      }.first
+      if let topic = topic {
+        cell.configure(suggestion: topic)
+      } else {
+        cell.configure(title: sessionText)
+      }
     } else { // session.prefix == "@"
       
     }
-    let text = session.
-    let mockData = AutocompleteEntitySuggestion.salesforceTopicsMockData
-    
-    let users = SampleData.shared.users
-    let name = session.completion?.text ?? ""
-    let user = users.filter { return $0.name == name }.first
-    cell.configure(title: name, subtitle: user?.name ?? "No User name")
     return cell
   }
   

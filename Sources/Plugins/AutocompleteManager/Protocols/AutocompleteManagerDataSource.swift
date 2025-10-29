@@ -56,7 +56,7 @@ public extension AutocompleteManagerDataSource {
       guard let cell = tableView.dequeueReusableCell(withIdentifier: AutocompleteSuggestionEntityCell.reuseIdentifier, for: indexPath) as? AutocompleteSuggestionEntityCell else {
         fatalError("CommunityEntityCell is not registered")
       }
-      cell.configure(title: "Testing title", subtitle: "Testing subtitle")
+      cell.configure(title: "Testing title")
         return cell
         
     }

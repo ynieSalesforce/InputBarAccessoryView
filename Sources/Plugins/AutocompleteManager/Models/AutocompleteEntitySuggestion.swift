@@ -8,12 +8,12 @@
 import Foundation
 
 public struct AutocompleteEntitySuggestion: Hashable {
-  let id: String
-  let type: EntitySuggestionType
-  let name: String
-  var description: String?
-  let photoUrl: String?
-  var privateGroup = false
+  public let id: String
+  public let type: EntitySuggestionType
+  public let name: String
+  public let description: String?
+  public let photoUrl: String?
+  public let privateGroup: Bool
   
   public init(
     id: String,
