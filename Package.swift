@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "InputBarAccessoryView",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v17)],
     products: [
         .library(name: "InputBarAccessoryView", targets: ["InputBarAccessoryView"]),
     ],
@@ -19,7 +19,8 @@ let package = Package(
               .product(name: "SnapKit", package: "SnapKit")
             ],
             path: "Sources",
-            exclude: ["Supporting/Info.plist"]
+            exclude: ["Supporting/Info.plist"],
+            resources: [.process("Supporting/Images.xcassets")]
         )
     ],
     swiftLanguageVersions: [.v5]

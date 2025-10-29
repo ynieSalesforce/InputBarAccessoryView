@@ -99,7 +99,7 @@ extension AutocompleteEntitySuggestion {
       type: .user,
       name: "Sarah Johnson",
       description: "Lead Product Designer at Airbnb",
-      photoUrl: "https://picsum.photos/100/100?random=2",
+      photoUrl: nil,
       privateGroup: false
     ),
     AutocompleteEntitySuggestion(

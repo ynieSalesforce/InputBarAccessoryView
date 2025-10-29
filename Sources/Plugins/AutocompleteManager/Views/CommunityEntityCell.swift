@@ -87,7 +87,7 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
   
   private func setAvatarImage(from imageURL: String? = nil) {
       // Handles user case
-    iconImage.image = UIImage.init(named: "AstroAvatar")
+    iconImage.image = imageLoader.loadImageFromPackage(named: "AstroAvatar")
     iconImage.tintColor = .systemBackground
     iconImageContainer.backgroundColor = .systemBackground
     guard let urlString = imageURL, let imageUrl = URL(string: urlString) else { return }
@@ -176,5 +176,9 @@ fileprivate class ImageLoader {
   
   fileprivate enum ImageLoadingError: Error {
     case invalidImageData
+  }
+  
+  fileprivate func loadImageFromPackage(named name: String) -> UIImage? {
+    return UIImage(named: name, in: Bundle.module, compatibleWith: nil)
   }
 }
