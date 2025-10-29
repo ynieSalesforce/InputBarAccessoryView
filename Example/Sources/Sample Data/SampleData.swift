@@ -85,6 +85,76 @@ import InputBarAccessoryView
 
   // MARK: - Mock Data
 extension AutocompleteEntitySuggestion {
+  public static let mockUsers: [AutocompleteEntitySuggestion] = [
+    AutocompleteEntitySuggestion(
+      id: "user_001",
+      type: .user,
+      name: "John Smith",
+      description: "Senior Software Engineer at Stripe",
+      photoUrl: "https://picsum.photos/100/100?random=1",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_002",
+      type: .user,
+      name: "Sarah Johnson",
+      description: "Lead Product Designer at Airbnb",
+      photoUrl: "https://picsum.photos/100/100?random=2",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_003",
+      type: .user,
+      name: "Mike Chen",
+      description: "iOS Developer at Discord",
+      photoUrl: "https://picsum.photos/100/100?random=3",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_004",
+      type: .user,
+      name: "Emily Rodriguez",
+      description: "Principal UX Researcher at Spotify",
+      photoUrl: "https://picsum.photos/100/100?random=4",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_005",
+      type: .user,
+      name: "David Kim",
+      description: "Backend Engineer at Notion",
+      photoUrl: "https://picsum.photos/100/100?random=5",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_006",
+      type: .user,
+      name: "Lisa Thompson",
+      description: "Senior Data Scientist at Netflix",
+      photoUrl: "https://picsum.photos/100/100?random=6",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_007",
+      type: .user,
+      name: "Alex Williams",
+      description: "Staff DevOps Engineer at GitHub",
+      photoUrl: "https://picsum.photos/100/100?random=7",
+      privateGroup: false
+    ),
+    AutocompleteEntitySuggestion(
+      id: "user_008",
+      type: .user,
+      name: "Maria Garcia",
+      description: "QA Engineering Manager at Figma",
+      photoUrl: "https://picsum.photos/100/100?random=8",
+      privateGroup: false
+    )
+  ]
+}
+
+  // MARK: - Mock Data
+extension AutocompleteEntitySuggestion {
   public static let salesforceTopicsMockData: [AutocompleteEntitySuggestion] = [
     AutocompleteEntitySuggestion(
       id: "apex-development",

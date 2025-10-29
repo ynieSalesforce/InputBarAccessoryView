@@ -13,6 +13,7 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
   static let autoCompleteAvatarSize: CGFloat = 32
   static let actionIconSize: CGFloat = autoCompleteAvatarSize / 2
   private var suggestion: AutocompleteEntitySuggestion?
+  private let imageLoader: ImageLoader = .init()
   
   public static var reuseIdentifier: String {
     String(describing: AutocompleteSuggestionEntityCell.self)
@@ -59,6 +60,22 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     
     switch suggestion.type {
     case .user:
+      setAvatarImage(from: suggestion.photoUrl)
+    default:
+      setTopicIconImage()
+    }
+    
+    setNeedsUpdateConstraints()
+    updateConstraintsIfNeeded()
+  }
+  
+  public func configure(title: String, type: AutocompleteEntitySuggestion.EntitySuggestionType = .topic) {
+    titleLabel.text = title
+    subtitleLabel.text = nil
+    suggestion = nil
+    
+    switch type {
+    case .user:
       setAvatarImage()
     default:
       setTopicIconImage()
@@ -68,22 +85,20 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     updateConstraintsIfNeeded()
   }
   
-  public func configure(title: String) {
-    titleLabel.text = title
-    subtitleLabel.text = nil
-    suggestion = nil
-    
-    setTopicIconImage()
-    
-    setNeedsUpdateConstraints()
-    updateConstraintsIfNeeded()
-  }
-  
-  private func setAvatarImage() {
+  private func setAvatarImage(from imageURL: String? = nil) {
       // Handles user case
     iconImage.image = UIImage.init(named: "AstroAvatar")
     iconImage.tintColor = .systemBackground
     iconImageContainer.backgroundColor = .systemBackground
+    guard let urlString = imageURL, let imageUrl = URL(string: urlString) else { return }
+    Task {
+      do {
+        let image = try await imageLoader.loadImage(from: imageUrl)
+        DispatchQueue.main.async {
+          self.iconImage.image = image
+        }
+      }
+    }
   }
   
   private func setTopicIconImage() {

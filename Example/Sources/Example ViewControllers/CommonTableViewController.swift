@@ -243,12 +243,7 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
   func autocompleteManager(_ manager: AutocompleteManager, autocompleteSourceFor prefix: String) -> [AutocompleteCompletion] {
     
     if prefix == "@" {
-      return conversation.users
-        .filter { $0.name != SampleData.shared.currentUser.name }
-        .map { user in
-          return AutocompleteCompletion(text: user.name,
-                                        context: ["id": user.id])
-        }
+      return AutocompleteEntitySuggestion.mockUsers.map(\.autoCompletion)
     } else if prefix == "#" {
       return AutocompleteEntitySuggestion.salesforceTopicsMockData.map(\.autoCompletion)
     }
@@ -270,10 +265,18 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
       if let topic = topic {
         cell.configure(suggestion: topic)
       } else {
-        cell.configure(title: sessionText)
+        cell.configure(title: sessionText, type: .topic)
       }
     } else { // session.prefix == "@"
-      
+      let sessionText = session.completion?.text ?? ""
+      let user = AutocompleteEntitySuggestion.mockUsers.filter { input in
+        input.name.lowercased().contains(sessionText.lowercased())
+      }.first
+      if let user = user {
+        cell.configure(suggestion: user)
+      } else {
+        cell.configure(title: sessionText, type: .user)
+      }
     }
     return cell
   }
