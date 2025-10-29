@@ -61,7 +61,7 @@ open class AutocompleteManager: NSObject, InputPlugin, UITextViewDelegate, UITab
   open lazy var tableView: AutocompleteTableView = { [weak self] in
     let tableView = AutocompleteTableView()
     tableView.register(AutocompleteCell.self, forCellReuseIdentifier: AutocompleteCell.reuseIdentifier)
-    tableView.register(CommunityEntityCell.self, forCellReuseIdentifier: CommunityEntityCell.reuseIdentifier)
+    tableView.register(AutocompleteSuggestionEntityCell.self, forCellReuseIdentifier: AutocompleteSuggestionEntityCell.reuseIdentifier)
     tableView.separatorStyle = .singleLine
     tableView.backgroundColor = .systemBackground
     tableView.rowHeight = UITableView.automaticDimension
