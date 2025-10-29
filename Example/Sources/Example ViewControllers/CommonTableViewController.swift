@@ -259,7 +259,7 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
     
     guard let cell = tableView
       .dequeueReusableCell(withIdentifier: AutocompleteSuggestionEntityCell.reuseIdentifier, for: indexPath)
-            as? CommunityEntityCell else
+            as? AutocompleteSuggestionEntityCell else
     { fatalError("Oops, some unknown error occurred") }
     
     let users = SampleData.shared.users

@@ -25,8 +25,6 @@ final class SubviewExampleViewController: CommonTableViewController {
         keyboardManager.shouldApplyAdditionBottomSpaceToInteractiveDismissal = true
         // Binding the inputBar will set the needed callback actions to position the inputBar on top of the keyboard
         keyboardManager.bind(inputAccessoryView: inputBar, withAdditionalBottomSpace: {
-            return 0
-            return -self.view.safeAreaInsets.bottom
             return -(self.inputBar.frame.height + self.view.safeAreaInsets.bottom)
         })
         

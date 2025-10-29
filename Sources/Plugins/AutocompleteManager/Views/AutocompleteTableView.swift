@@ -28,21 +28,23 @@
 import UIKit
 
 open class AutocompleteTableView: UITableView {
-    
     /// The max visible rows visible in the autocomplete table before the user has to scroll throught them
-    open var maxVisibleRows = 3 { didSet { invalidateIntrinsicContentSize() } }
-    
+  open var maxVisibleRows = 3 { didSet { invalidateIntrinsicContentSize() } }
+  
   open override var intrinsicContentSize: CGSize {
     get {
-      let rows = numberOfRows(inSection: 0) < maxVisibleRows ? numberOfRows(inSection: 0) : maxVisibleRows
-      var height:CGFloat = 0
+      let visibleRows = numberOfRows(inSection: 0) < maxVisibleRows ? numberOfRows(inSection: 0) : maxVisibleRows
+      var height: CGFloat = 0
       
-      for r in 0..<rows {
-        height += self.rectForRow(at: IndexPath(row: r, section: 0)).size.height
+      for row in 0..<visibleRows {
+        height += self.rectForRow(at: IndexPath(row: row, section: 0))
+          .size.height
       }
+      
       return CGSize(width: UIView.noIntrinsicMetric, height: height)
     }
     set {
     }
   }
 }
+
