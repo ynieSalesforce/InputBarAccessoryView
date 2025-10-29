@@ -89,14 +89,14 @@ extension AutocompleteEntitySuggestion {
     AutocompleteEntitySuggestion(
       id: "apex-development",
       type: .topic,
-      name: "Apex Development",
+      name: "This is a very long topic name to test the word wrapping functionality",
       description: "Server-side programming language for Salesforce platform",
       photoUrl: nil
     ),
     AutocompleteEntitySuggestion(
       id: "lightning-web-components",
       type: .topic,
-      name: "Lightning Web Components",
+      name: "This is a very long topic name to test the word wrapping functionality",
       description: nil,
       photoUrl: nil
     ),
