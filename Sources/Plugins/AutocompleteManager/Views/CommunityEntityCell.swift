@@ -11,7 +11,8 @@ import SnapKit
 
 open class AutocompleteSuggestionEntityCell: UITableViewCell {
   static let autoCompleteAvatarSize: CGFloat = 32
-  static let actionIconSize: CGFloat = 22
+  static let actionIconSize: CGFloat = autoCompleteAvatarSize / 2
+  private var suggestion: AutocompleteEntitySuggestion?
   
   public static var reuseIdentifier: String {
     String(describing: AutocompleteSuggestionEntityCell.self)
@@ -49,13 +50,46 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     contentView.addSubview(label)
     return label
   }()
- 
-  public func configure(title: String, subtitle: String) {
-    contentView.backgroundColor = .systemBackground
-    titleLabel.text = title
-    subtitleLabel.text = subtitle
+  
+  public func configure(suggestion: AutocompleteEntitySuggestion) {
+    titleLabel.text = suggestion.name
+    subtitleLabel.text = suggestion.description
+    self.suggestion = suggestion
     
-    // Handles topic case
+    switch suggestion.type {
+    case .user:
+      
+    default:
+      setTopicIconImage()
+    }
+    
+    setNeedsUpdateConstraints()
+    updateConstraintsIfNeeded()
+  }
+  
+  public func configure(title: String) {
+    titleLabel.text = title
+    subtitleLabel.text = nil
+    suggestion = nil
+    
+    setTopicIconImage()
+    
+    setNeedsUpdateConstraints()
+    updateConstraintsIfNeeded()
+  }
+  
+  private func setAvatarImage() {
+      // Handles user case
+    iconImage.image = .imageWithPointSize(
+      systemName: "number",
+      pointSize: AutocompleteSuggestionEntityCell.actionIconSize
+    )
+    iconImage.tintColor = .systemBackground
+    iconImageContainer.backgroundColor = .systemBackground
+  }
+  
+  private func setTopicIconImage() {
+      // Handles topic case
     iconImage.image = .imageWithPointSize(
       systemName: "number",
       pointSize: AutocompleteSuggestionEntityCell.actionIconSize
@@ -63,24 +97,28 @@ open class AutocompleteSuggestionEntityCell: UITableViewCell {
     
     iconImage.tintColor = .white
     iconImageContainer.backgroundColor = .systemBlue
-    
-    setNeedsUpdateConstraints()
-    updateConstraintsIfNeeded()
   }
   
   open override func updateConstraints() {
+    contentView.backgroundColor = .systemBackground
+    
     iconImageContainer.snp.updateConstraints { make in
-      make.height.width.equalTo(AutocompleteSuggestionEntityCell.autoCompleteAvatarSize)
+      make.height.width.equalTo(AutocompleteSuggestionEntityCell.autoCompleteAvatarSize).priority(.high)
       make.centerY.equalTo(contentView)
       make.leading.equalTo(contentView).offset(16)
     }
     
     iconImage.snp.updateConstraints { make in
       make.center.equalTo(iconImageContainer)
+      if let suggestion = suggestion, suggestion.type == .user {
+        make.height.width.equalTo(AutocompleteSuggestionEntityCell.autoCompleteAvatarSize)
+      } else {
+        make.height.width.equalTo(AutocompleteSuggestionEntityCell.actionIconSize)
+      }
     }
     
     titleLabel.snp.updateConstraints { make in
-      make.leading.equalTo(iconImageContainer.snp.trailing).offset(16)
+      make.leading.equalTo(iconImageContainer.snp.trailing).offset(16).priority(.high)
       make.top.equalTo(contentView).offset(8)
       make.trailing.equalTo(contentView).inset(16)
     }
@@ -99,5 +137,19 @@ fileprivate extension UIImage {
   static func imageWithPointSize(systemName: String, pointSize: CGFloat) -> UIImage? {
     let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: pointSize)
     return UIImage(systemName: systemName, withConfiguration: symbolConfiguration)
+  }
+}
+
+fileprivate class ImageLoader {
+  fileprivate func loadImage(from url: URL) async throws -> UIImage {
+    let (data, _) = try await URLSession.shared.data(from: url)
+    guard let image = UIImage(data: data) else {
+      throw ImageLoadingError.invalidImageData
+    }
+    return image
+  }
+  
+  fileprivate enum ImageLoadingError: Error {
+    case invalidImageData
   }
 }

@@ -250,7 +250,7 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
                                         context: ["id": user.id])
         }
     } else if prefix == "#" {
-      return hashtagAutocompletes + asyncCompletions
+      return AutocompleteEntitySuggestion.salesforceTopicsMockData.map(\.autoCompletion)
     }
     return []
   }
@@ -261,6 +261,16 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
       .dequeueReusableCell(withIdentifier: AutocompleteSuggestionEntityCell.reuseIdentifier, for: indexPath)
             as? AutocompleteSuggestionEntityCell else
     { fatalError("Oops, some unknown error occurred") }
+    
+    if session.prefix == "#" {
+      let name = session.completion?.text ?? ""
+      let topic = AutocompleteEntitySuggestion.salesforceTopicsMockData.filter(\.name) == name
+      
+    } else { // session.prefix == "@"
+      
+    }
+    let text = session.
+    let mockData = AutocompleteEntitySuggestion.salesforceTopicsMockData
     
     let users = SampleData.shared.users
     let name = session.completion?.text ?? ""
