@@ -64,11 +64,7 @@ open class AttachmentManager: NSObject, InputPlugin {
     
     /// The color applied to the backgroundColor of the deleteButton in each `AttachmentCell`
     open var tintColor: UIColor {
-        if #available(iOS 13, *) {
-            return .link
-        } else {
-            return .systemBlue
-        }
+      return .link
     }
     
     // MARK: - Initialization
@@ -233,12 +229,7 @@ extension AttachmentManager: UICollectionViewDataSource, UICollectionViewDelegat
                                         height: cell.bounds.height - cell.padding.top - cell.padding.bottom))
         let strokeWidth: CGFloat = 3
         let length: CGFloat = frame.width / 2
-        let grayColor: UIColor
-        if #available(iOS 13, *) {
-            grayColor = .systemGray2
-        } else {
-            grayColor = .lightGray
-        }
+        let grayColor: UIColor = .systemGray2
         let vLayer = CAShapeLayer()
         vLayer.path = UIBezierPath(roundedRect: CGRect(x: frame.midX - (strokeWidth / 2),
                                                        y: frame.midY - (length / 2),

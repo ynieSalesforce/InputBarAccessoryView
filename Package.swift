@@ -9,9 +9,15 @@ let package = Package(
     products: [
         .library(name: "InputBarAccessoryView", targets: ["InputBarAccessoryView"]),
     ],
+    dependencies: [
+      .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1")
+    ],
     targets: [
         .target(
             name: "InputBarAccessoryView",
+            dependencies: [
+              .product(name: "SnapKit", package: "SnapKit")
+            ],
             path: "Sources",
             exclude: ["Supporting/Info.plist"]
         )
