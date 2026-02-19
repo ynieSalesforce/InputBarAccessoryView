@@ -33,12 +33,32 @@ open class AutocompleteTableView: UITableView {
   
   open override var intrinsicContentSize: CGSize {
     get {
-      let visibleRows = numberOfRows(inSection: 0) < maxVisibleRows ? numberOfRows(inSection: 0) : maxVisibleRows
-      var height: CGFloat = 0
+      let rowCount = numberOfRows(inSection: 0)
+      let visibleRows = rowCount < maxVisibleRows ? rowCount : maxVisibleRows
       
+      guard visibleRows > 0 else {
+        return CGSize(width: UIView.noIntrinsicMetric, height: 0)
+      }
+      
+      // Ensure the table view has performed layout before querying row rects
+      layoutIfNeeded()
+      
+      var height: CGFloat = 0
       for row in 0..<visibleRows {
-        height += self.rectForRow(at: IndexPath(row: row, section: 0))
-          .size.height
+        height += self.rectForRow(at: IndexPath(row: row, section: 0)).size.height
+      }
+      
+      if height == 0 {
+        // Fallback: use rowHeight or estimatedRowHeight if rectForRow(at:) is not reliable yet
+        let defaultRowHeight: CGFloat
+        if rowHeight > 0 {
+          defaultRowHeight = rowHeight
+        } else if estimatedRowHeight > 0 {
+          defaultRowHeight = estimatedRowHeight
+        } else {
+          defaultRowHeight = 44 // reasonable default row height
+        }
+        height = CGFloat(visibleRows) * defaultRowHeight
       }
       
       return CGSize(width: UIView.noIntrinsicMetric, height: height)
