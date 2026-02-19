@@ -63,8 +63,6 @@ open class AutocompleteTableView: UITableView {
       
       return CGSize(width: UIView.noIntrinsicMetric, height: height)
     }
-    set {
-    }
   }
 }
 
