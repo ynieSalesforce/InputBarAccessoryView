@@ -91,11 +91,4 @@ open class AutocompleteCell: UITableViewCell {
         let imageViewSize = CGSize(width: imageViewFrame.size.width - imageViewEdgeInsets.left - imageViewEdgeInsets.right, height: imageViewFrame.size.height - imageViewEdgeInsets.top - imageViewEdgeInsets.bottom)
         imageView?.frame = CGRect(origin: imageViewOrigin, size: imageViewSize)
     }
-    
-    // MARK: - API [Public]
-    
-    @available(*, deprecated, message: "This function has been moved to the `AutocompleteManager`")
-    open func attributedText(matching session: AutocompleteSession) -> NSMutableAttributedString {
-        fatalError("Please use `func attributedText(matching:, fontSize:)` implemented in the `AutocompleteManager`")
-    }
 }

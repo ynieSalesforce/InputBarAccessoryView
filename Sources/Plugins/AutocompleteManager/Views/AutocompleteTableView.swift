@@ -28,14 +28,41 @@
 import UIKit
 
 open class AutocompleteTableView: UITableView {
-    
     /// The max visible rows visible in the autocomplete table before the user has to scroll throught them
-    open var maxVisibleRows = 3 { didSet { invalidateIntrinsicContentSize() } }
-    
-    open override var intrinsicContentSize: CGSize {
-        
-        let rows = numberOfRows(inSection: 0) < maxVisibleRows ? numberOfRows(inSection: 0) : maxVisibleRows
-        return CGSize(width: super.intrinsicContentSize.width, height: (CGFloat(rows) * rowHeight))
+  open var maxVisibleRows = 3 { didSet { invalidateIntrinsicContentSize() } }
+  
+  open override var intrinsicContentSize: CGSize {
+    get {
+      let rowCount = numberOfRows(inSection: 0)
+      let visibleRows = rowCount < maxVisibleRows ? rowCount : maxVisibleRows
+      
+      guard visibleRows > 0 else {
+        return CGSize(width: UIView.noIntrinsicMetric, height: 0)
+      }
+      
+      // Ensure the table view has performed layout before querying row rects
+      layoutIfNeeded()
+      
+      var height: CGFloat = 0
+      for row in 0..<visibleRows {
+        height += self.rectForRow(at: IndexPath(row: row, section: 0)).size.height
+      }
+      
+      if height == 0 {
+        // Fallback: use rowHeight or estimatedRowHeight if rectForRow(at:) is not reliable yet
+        let defaultRowHeight: CGFloat
+        if rowHeight > 0 {
+          defaultRowHeight = rowHeight
+        } else if estimatedRowHeight > 0 {
+          defaultRowHeight = estimatedRowHeight
+        } else {
+          defaultRowHeight = 44 // reasonable default row height
+        }
+        height = CGFloat(visibleRows) * defaultRowHeight
+      }
+      
+      return CGSize(width: UIView.noIntrinsicMetric, height: height)
     }
-    
+  }
 }
+
